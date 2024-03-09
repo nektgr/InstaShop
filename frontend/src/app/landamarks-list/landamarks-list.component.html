@@ -1,22 +1,26 @@
-
-  
-  <div *ngFor="let landmark of allLandmarks" class="mb-4">
-    <div class="bg-white shadow-sm p-4 rounded-lg">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <img
-            [src]="landmark.photo_thumb"
-            alt="{{ landmark.title }} Photo"
-            class="w-250 h-250 cursor-pointer object-cover object-center"
-          />
+<div *ngFor="let landmark of allLandmarks" class="mb-4">
+  <div class="bg-white shadow-sm p-4 rounded-lg">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <img
+          [src]="landmark.photo_thumb"
+          alt="{{ landmark.title }} Photo"
+          class="w-250 h-250 cursor-pointer object-cover object-center"
+        />
+      </div>
+      <div class="flex flex-col justify-items-start align-bottom">
+        <div class="flex items-center mb-2">
+          <h5 class="text-xl font-semibold">
+            <ng-container>
+              <a [routerLink]="['/detail', landmark.objectId]" class="hover:underline text-2xl">{{ landmark.title }}</a>
+            </ng-container>
+          </h5>
         </div>
-        <div class="flex flex-col justify-items-start align-bottom">
-          <div class="flex items-center mb-2"> <!-- Added margin-bottom to reduce the gap -->
-            <h5 class="text-xl font-semibold">
-            
-                <a [routerLink]="['/detail', landmark.objectId]" class="hover:underline text-2xl">{{ landmark.title }}</a>
-            </h5>
-            <ng-container >
-                {{ landmark.short_info }}
-              </ng-container>
-    
+        
+        <div>
+          {{ landmark.short_info }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
