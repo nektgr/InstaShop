@@ -7,18 +7,25 @@ import { LandmarkDetailComponent } from './landmark-detail/landmark-detail.compo
 import { LandmarksListComponent } from './landmarks-list/landmarks-list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
+import { LoginModalComponent } from './login-modal/login-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PhotoPopupComponent } from './photo-popup/photo-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
     LandmarkDetailComponent,
     LandmarksListComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginModalComponent,
+    PhotoPopupComponent,
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     AppRoutingModule, 
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

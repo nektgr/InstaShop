@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LandmarkService } from '../services/landmark.service';
 import { Landmark, LandmarkList } from '../models/landmark.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PhotoPopupComponent } from '../photo-popup/photo-popup.component';
 @Component({
   selector: 'app-landmarks-list',
   templateUrl: './landmarks-list.component.html',
@@ -10,8 +12,11 @@ export class LandmarksListComponent implements OnInit {
   allLandmarks: Landmark[] = [];
   filteredLandmarks: Landmark[] = [];
   searchTerm: string = '';
-  constructor(private landmarkService: LandmarkService) {
-  }
+
+  constructor(
+    private landmarkService: LandmarkService,
+    private modalService: NgbModal,
+  ) {}
 
   ngOnInit(): void {
     this.fetchLandmarks();
@@ -56,5 +61,10 @@ export class LandmarksListComponent implements OnInit {
   searchLandmarks() {
     this.filterAndSortLandmarks();
   }
+  openPhotoPopup(fullSizePhotoUrl: string) {
+    const modalRef = this.modalService.open(PhotoPopupComponent);
+    modalRef.componentInstance.photoUrl = fullSizePhotoUrl;
+  }
+
 }
 

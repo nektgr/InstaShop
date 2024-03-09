@@ -32,7 +32,6 @@ export class LandmarkDetailComponent implements OnInit {
         this.landmark = result;
       } catch (error) {
         console.error('Error fetching landmark', error);
-        // Handle the error, show a user-friendly message, or redirect to an error page.
       }
     }
   }

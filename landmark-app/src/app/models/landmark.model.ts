@@ -7,6 +7,7 @@ export interface Landmark {
     official_site: string;
     location: number[];
     order: number;
+    photo: string;
   }
   
   export interface LandmarkList {
