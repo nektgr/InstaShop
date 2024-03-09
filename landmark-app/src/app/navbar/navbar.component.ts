@@ -21,17 +21,14 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleMenu() {
-    console.log('Toggle Menu method called'); // Add this line for debugging
     this.isMenuCollapsed = !this.isMenuCollapsed;
   }
 
   openLoginModal() {
-    console.log('Open Login Modal clicked'); // Add this line for debugging
     const modalRef = this.modalService.open(LoginModalComponent);
   }
 
   logout() {
-    console.log('Logout clicked'); // Add this line for debugging
     this.authService.logout();
   }
 }

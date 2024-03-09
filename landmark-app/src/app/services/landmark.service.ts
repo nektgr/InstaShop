@@ -40,4 +40,25 @@ export class LandmarkService {
     const apiUrl = `${this.apiUrl}/classes/Landmark/${id}`;
     return this.http.get<Landmark>(apiUrl, { headers: this.getHeaders() });
   }
+
+  
+  updateLandmarkTitle(objectId: string, newTitle: string): Observable<any> {
+    const updateData = {
+      title: newTitle
+    };
+
+    const updateUrl = `${this.apiUrl}/${objectId}`;
+
+    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
+  }
+
+  updateLandmarkShortInfo(objectId: string, newShortInfo: string): Observable<any> {
+    const updateData = {
+      short_info: newShortInfo
+    };
+
+    const updateUrl = `${this.apiUrl}/${objectId}`;
+
+    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
+  }
 }

@@ -1,0 +1,14 @@
+<!-- editable-content.component.html -->
+<div>
+    <ng-container *ngIf="!isEditMode">
+      <div>
+        {{ content }}
+        <button *ngIf="isAuthenticated" (click)="enterEditMode()">Edit</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isEditMode">
+      <textarea [class]="calculateTextareaClasses()" spellcheck="false" [(ngModel)]="editedContent" [rows]="calculateRowCount()" [cols]="100" (blur)="saveContent()"></textarea>
+      <button (click)="saveContent()">Save</button>
+    </ng-container>
+  </div>
+  

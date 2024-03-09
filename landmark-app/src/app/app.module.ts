@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PhotoPopupComponent } from './photo-popup/photo-popup.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EditableContentComponent } from './editable-content/editable-content.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +20,7 @@ import { PhotoPopupComponent } from './photo-popup/photo-popup.component';
     NavbarComponent,
     LoginModalComponent,
     PhotoPopupComponent,
+    EditableContentComponent,
   ],
   imports: [
     NgbModule,
@@ -25,7 +28,6 @@ import { PhotoPopupComponent } from './photo-popup/photo-popup.component';
     AppRoutingModule, 
     HttpClientModule,
     FormsModule,
-    
   ],
   providers: [],
   bootstrap: [AppComponent]
