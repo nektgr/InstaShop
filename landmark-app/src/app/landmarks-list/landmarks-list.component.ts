@@ -8,7 +8,8 @@ import { Landmark, LandmarkList } from '../models/landmark.model';
 })
 export class LandmarksListComponent implements OnInit {
   allLandmarks: Landmark[] = [];
-
+  filteredLandmarks: Landmark[] = [];
+  searchTerm: string = '';
   constructor(private landmarkService: LandmarkService) {
   }
 
@@ -22,8 +23,10 @@ export class LandmarksListComponent implements OnInit {
         if (response.results && Array.isArray(response.results)) {
           this.allLandmarks = response.results.map((landmark: any) => ({
             ...landmark,
+            isEditingTitle: false,
+            isEditingShortInfo: false,
           }));
-          this.sortLandmarks();
+          this.filterAndSortLandmarks();
         } else {
           console.error('Invalid API response structure:', response);
         }
@@ -34,9 +37,24 @@ export class LandmarksListComponent implements OnInit {
     );
   }
 
-  sortLandmarks() {
-    this.allLandmarks.sort((a, b) => a.order - b.order);
+  filterAndSortLandmarks() {
+    if (!this.searchTerm) {
+      this.filteredLandmarks = [...this.allLandmarks];
+    } else {
+      this.filteredLandmarks = this.allLandmarks.filter((landmark) =>
+        landmark.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+
+    this.sortLandmarks();
   }
 
+  sortLandmarks() {
+    this.filteredLandmarks.sort((a, b) => a.order - b.order);
+  }
+
+  searchLandmarks() {
+    this.filterAndSortLandmarks();
+  }
 }
 

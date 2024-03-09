@@ -21,9 +21,19 @@ export class LandmarkService {
     return new HttpHeaders(headersConfig);
   }
 
-  getLandmarks(): Observable<Landmark[]> {
-    const endpoint = `${this.apiUrl}/classes/Landmark`;
-    return this.http.get<Landmark[]>(endpoint, { headers: this.getHeaders() });
+  getLandmarks(searchTerm?: string): Observable<Landmark[]> {
+    let params = new HttpParams();
+
+    if (searchTerm) {
+      params = params.set('where', JSON.stringify({
+        $or: [
+          { title: { $regex: searchTerm, $options: 'i' } },
+          { short_info: { $regex: searchTerm, $options: 'i' } }
+        ]
+      }));
+    }
+    const apiUrl = `${this.apiUrl}/classes/Landmark/`;
+    return this.http.get<Landmark[]>(apiUrl, { headers: this.getHeaders(), params });
   }
 
   getLandmarkById(id: string): Observable<Landmark> {

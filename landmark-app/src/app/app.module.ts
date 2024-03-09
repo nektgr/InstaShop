@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LandmarkDetailComponent } from './landmark-detail/landmark-detail.component';
 import { LandmarksListComponent } from './landmarks-list/landmarks-list.component';
 import { NavbarComponent } from './navbar/navbar.component';
-
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +17,8 @@ import { NavbarComponent } from './navbar/navbar.component';
   imports: [
     BrowserModule,
     AppRoutingModule, 
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
