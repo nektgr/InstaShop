@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { LandmarkService } from '../services/landmark.service';
 import { Landmark, LandmarkList } from '../models/landmark.model';
 @Component({
-  selector: 'app-landamarks-list',
-  templateUrl: './landamarks-list.component.html',
-  styleUrl: './landamarks-list.component.css'
+  selector: 'app-landmarks-list',
+  templateUrl: './landmarks-list.component.html',
+  styleUrl: './landmarks-list.component.css'
 })
-export class LandamarksListComponent implements OnInit {
+export class LandmarksListComponent implements OnInit {
   allLandmarks: Landmark[] = [];
 
   constructor(private landmarkService: LandmarkService) {

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandamarksListComponent } from './landamarks-list/landamarks-list.component';
+import { LandmarksListComponent } from './landmarks-list/landmarks-list.component';
 
 const routes: Routes = [
-  {path:'',component: LandamarksListComponent}
+  {path:'',component: LandmarksListComponent}
 ];
 
 @NgModule({

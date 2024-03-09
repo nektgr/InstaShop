@@ -134,4 +134,7 @@ dist
 #Backend Ignores
 /backend/.gitignore
 #Frontend Ignores
-/frontend/.gitignore
+/landmark-app/.gitignore
+
+/landmark-app/src/enviroments/*.ts
+/landmark-app/src/enviroments/*.js

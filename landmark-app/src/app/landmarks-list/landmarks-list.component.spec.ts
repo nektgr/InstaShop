@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LandamarkDetailComponent } from './landamark-detail.component';
+import { LandmarksListComponent } from './landmarks-list.component';
 
-describe('LandamarkDetailComponent', () => {
-  let component: LandamarkDetailComponent;
-  let fixture: ComponentFixture<LandamarkDetailComponent>;
+describe('LandmarksListComponent', () => {
+  let component: LandmarksListComponent;
+  let fixture: ComponentFixture<LandmarksListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LandamarkDetailComponent]
+      declarations: [LandmarksListComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(LandamarkDetailComponent);
+    fixture = TestBed.createComponent(LandmarksListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
