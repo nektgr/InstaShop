@@ -1,19 +1,29 @@
+<!-- landmarks-list.component.html -->
+
+<!-- Search input -->
 <div>
-  <input class="w-full p-2 border rounded focus:outline-none focus:border-blue-500" type="search" placeholder="Search landmarks" [(ngModel)]="searchTerm" (input)="searchLandmarks()">
+  <input class="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
+         type="search" placeholder="Search landmarks"
+         [(ngModel)]="searchTerm" (input)="searchLandmarks()">
 </div>
 
+<!-- List of landmarks -->
 <div *ngFor="let landmark of filteredLandmarks" class="mb-4">
   <div class="bg-white shadow-sm p-4 rounded-lg">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Landmark photo -->
       <div>
-        <img
-          [src]="landmark.photo_thumb"
-          alt="{{ landmark.title }} Photo"
-          (click)="openPhotoPopup(landmark.photo)"
-        />
+        <img [src]="landmark.photo_thumb"
+             alt="{{ landmark.title }} Photo"
+             (click)="openPhotoPopup(landmark.photo)"
+             [style.width.px]="environment.PHOTO_WIDTH"
+             [style.height.px]="environment.PHOTO_HEIGHT" />
       </div>
+
+      <!-- Landmark details -->
       <div class="flex flex-col justify-items-start align-bottom">
         <div class="flex items-center mb-2">
+          <!-- Landmark title with editable content -->
           <h5 class="text-xl font-semibold">
             <app-editable-content
               [isAuthenticated]="isAuthenticated"
@@ -21,10 +31,10 @@
               [link]="'/detail/' + landmark.objectId"
               (editedContentChange)="onTitleChange($event, landmark)"
             ></app-editable-content>
-            
           </h5>
         </div>
 
+        <!-- Landmark short info with editable content -->
         <p class="text-gray-600">
           <app-editable-content
             [isAuthenticated]="isAuthenticated"

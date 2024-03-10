@@ -1,8 +1,11 @@
+// auth.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../enviroments/enviroment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +23,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Get HTTP headers with optional session token.
+   * @param includeSessionToken Whether to include the session token in headers.
+   * @returns HttpHeaders object.
+   */
   private getHeaders(includeSessionToken: boolean = true): HttpHeaders {
     const headersConfig: { [key: string]: string } = {
       'X-Parse-Application-Id': environment.appId,
@@ -36,6 +44,12 @@ export class AuthService {
     return new HttpHeaders(headersConfig);
   }
 
+  /**
+   * Set a browser cookie.
+   * @param name Cookie name.
+   * @param value Cookie value.
+   * @param expirationDays Number of days until the cookie expires.
+   */
   private setCookie(name: string, value: string, expirationDays: number) {
     const date = new Date();
     date.setTime(date.getTime() + expirationDays * 24 * 60 * 60 * 1000);
@@ -43,6 +57,11 @@ export class AuthService {
     document.cookie = name + '=' + value + ';' + expires + ';path=/';
   }
 
+  /**
+   * Get the value of a browser cookie.
+   * @param name Cookie name.
+   * @returns Cookie value or null if not found.
+   */
   private getCookie(name: string): string | null {
     const cookieName = name + '=';
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -59,11 +78,14 @@ export class AuthService {
     return null;
   }
 
+  /**
+   * Log in the user.
+   * @param username User's username.
+   * @param password User's password.
+   * @returns Promise representing the login operation.
+   */
   login(username: string, password: string): Promise<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'X-Parse-Application-Id': environment.appId
-    });
+    const headers = this.getHeaders(false);
 
     const body = {
       username,
@@ -84,6 +106,10 @@ export class AuthService {
     ).toPromise();
   }
 
+  /**
+   * Log out the user.
+   * @returns Promise representing the logout operation.
+   */
   logout(): Promise<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, null, { headers: this.getHeaders() }).toPromise()
       .then(() => {
@@ -98,9 +124,11 @@ export class AuthService {
       });
   }
 
+  /**
+   * Delete a browser cookie.
+   * @param name Cookie name.
+   */
   private deleteCookie(name: string) {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
   }
-
-
 }

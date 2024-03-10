@@ -1,3 +1,4 @@
+// landmark-detail.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Landmark } from '../models/landmark.model';
@@ -23,6 +24,7 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Initialize component and subscribe to authentication changes
     this.fetchLandmark();
     this.authService.isAuthenticated$
       .pipe(takeUntil(this.ngUnsubscribe$))
@@ -33,11 +35,13 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // Unsubscribe from observables to prevent memory leaks
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }
 
   private fetchLandmark() {
+    // Fetch landmark data based on the route parameter
     console.log('Fetching landmark data');
     const landmarkId = this.route.snapshot.paramMap.get('id');
     if (landmarkId) {
@@ -52,9 +56,10 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Event handler for title change
   onTitleChange(newTitle: string, landmark: Landmark | undefined) {
     console.log('Title changed:', newTitle);
-  
+
     if (landmark) {
       // Make a PUT request to update the title on the server
       this.landmarkService.updateLandmarkTitle(landmark.objectId!, newTitle).subscribe(
@@ -67,10 +72,11 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
       );
     }
   }
-  
+
+  // Event handler for short info change
   onShortInfoChange(newShortInfo: string, landmark: Landmark | undefined) {
     console.log('Short info changed:', newShortInfo);
-  
+
     if (landmark) {
       // Make a PUT request to update the short info on the server
       this.landmarkService.updateLandmarkShortInfo(landmark.objectId!, newShortInfo).subscribe(
@@ -83,10 +89,11 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
       );
     }
   }
-  
+
+  // Event handler for description change
   onDescriptionChange(newDescription: string, landmark: Landmark | undefined) {
     console.log('Description changed:', newDescription);
-  
+
     if (landmark) {
       // Make a PUT request to update the Description on the server
       this.landmarkService.updateLandmarkDescription(landmark.objectId!, newDescription).subscribe(

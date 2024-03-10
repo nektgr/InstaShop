@@ -1,38 +1,46 @@
+<!-- landmark-details.component.html -->
+
 <div class="container mx-auto mt-8 p-8 bg-white shadow-lg rounded-lg">
+  <!-- Title section with editable content component -->
   <h1 class="text-3xl font-bold mb-4">
-      <app-editable-content
-          [isAuthenticated]="isAuthenticated"
-          [content]="landmark?.title ?? ''"
-          (editedContentChange)="onTitleChange($event, landmark)"
-          
-      ></app-editable-content>
+    <app-editable-content
+      [isAuthenticated]="isAuthenticated"
+      [content]="landmark?.title ?? ''"
+      (editedContentChange)="onTitleChange($event, landmark)"
+    ></app-editable-content>
   </h1>
+
+  <!-- Image section -->
   <img
-      [src]="landmark?.photo_thumb"
-      alt="{{ landmark?.title }} Photo"
-      class="w-full h-auto max-w-md mx-auto mb-4 rounded-lg"
+    [src]="landmark?.photo_thumb"
+    alt="{{ landmark?.title }} Photo"
+    class="w-full h-auto max-w-md mx-auto mb-4 rounded-lg"
   />
+
+  <!-- Short info section -->
   <div class="mb-4">
-     
-      <p class="text-gray-700 font-bold">
-          <app-editable-content
-              [isAuthenticated]="isAuthenticated"
-              [content]="landmark?.short_info ?? ''"
-              (editedContentChange)="onShortInfoChange($event, landmark)"
-          ></app-editable-content>
-      </p>
+    <p class="text-gray-700 font-bold">
+      <app-editable-content
+        [isAuthenticated]="isAuthenticated"
+        [content]="landmark?.short_info ?? ''"
+        (editedContentChange)="onShortInfoChange($event, landmark)"
+      ></app-editable-content>
+    </p>
   </div>
+
+  <!-- Description section -->
   <div>
-      
-      <p class="text-gray-700">
-          <app-editable-content
-              [isAuthenticated]="isAuthenticated"
-              [content]="landmark?.description ?? ''"
-              (editedContentChange)="onDescriptionChange($event, landmark)"
-          ></app-editable-content>
-      </p>
+    <p class="text-gray-700">
+      <app-editable-content
+        [isAuthenticated]="isAuthenticated"
+        [content]="landmark?.description ?? ''"
+        (editedContentChange)="onDescriptionChange($event, landmark)"
+      ></app-editable-content>
+    </p>
   </div>
+
+  <!-- Official Site link -->
   <a href="#" target="_blank" class="block w-full max-w-sm mx-auto py-2 px-4 bg-indigo-600 text-white text-center rounded-md transition duration-300 hover:bg-indigo-700 mt-4">
-      Official Site
+    Official Site
   </a>
 </div>

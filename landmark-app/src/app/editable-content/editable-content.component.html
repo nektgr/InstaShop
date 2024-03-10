@@ -1,19 +1,26 @@
+<!-- editable-content.component.html -->
+
 <div>
+  <!-- Display content when not in edit mode -->
   <ng-container *ngIf="!isEditMode">
     <div>
+      <!-- Check if a link is provided, display as link if available -->
       <ng-container *ngIf="link; else contentBlock">
         <a *ngIf="!isEditMode" [routerLink]="link">{{ content }}</a>
       </ng-container>
+      <!-- Display content if no link is available -->
       <ng-template #contentBlock>
         {{ content }}
       </ng-template>
 
+      <!-- Edit button visible for authenticated users -->
       <button *ngIf="isAuthenticated" (click)="enterEditMode()">
         <img src="assets/pen.png" alt="Edit" class="w-4 h-4 ml-2">
       </button>
     </div>
   </ng-container>
 
+  <!-- Display textarea and save button when in edit mode -->
   <ng-container *ngIf="isEditMode">
     <textarea [class]="calculateRowCount() > 20 ? 'w-full h-150 resize-y' : 'w-full h-40 resize-y'" spellcheck="false" [(ngModel)]="editedContent" [rows]="calculateRowCount()" [cols]="100" (blur)="saveContent()" (keydown.enter)="saveContent()"></textarea>
     <button (click)="saveContent()">Save</button>

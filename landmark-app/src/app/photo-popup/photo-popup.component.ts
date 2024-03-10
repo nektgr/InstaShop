@@ -1,4 +1,5 @@
 // photo-popup.component.ts
+
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -7,5 +8,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./photo-popup.component.css']
 })
 export class PhotoPopupComponent {
+  // Input property to receive the URL of the photo
   @Input() photoUrl: string | undefined;
 }
