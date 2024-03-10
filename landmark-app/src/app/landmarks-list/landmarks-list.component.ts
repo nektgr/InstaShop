@@ -4,6 +4,7 @@ import { LandmarkService } from '../services/landmark.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PhotoPopupComponent } from '../photo-popup/photo-popup.component';
 import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-landmars-list',
@@ -15,7 +16,7 @@ export class LandmarksListComponent implements OnInit {
   filteredLandmarks: any[] = [];
   searchTerm: string = '';
   isAuthenticated: boolean = false;
-
+  private authSubscription: Subscription = new Subscription;
   constructor(
     private landmarkService: LandmarkService,
     private modalService: NgbModal,
@@ -24,14 +25,18 @@ export class LandmarksListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchLandmarks();
-    this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
+    this.authSubscription=this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
       this.isAuthenticated = isAuthenticated;
       
       console.log('User authenticated:', isAuthenticated);
     });
   }
 
-
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
 
   openPhotoPopup(fullSizePhotoUrl: string) {
     const modalRef = this.modalService.open(PhotoPopupComponent);

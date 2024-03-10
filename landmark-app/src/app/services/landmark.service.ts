@@ -1,20 +1,21 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Landmark, LandmarkList } from '../models/landmark.model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Landmark } from '../models/landmark.model';
 import { environment } from '../../enviroments/enviroment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LandmarkService {
-  private apiUrl:string= environment.apiUrl;
-  private applicationId:string = environment.appId;
+  private apiUrl: string = environment.apiUrl;
+  private applicationId: string = environment.appId;
+
   constructor(private http: HttpClient) {}
-  
+
   private getHeaders(includeSessionToken: boolean = true): HttpHeaders {
-    const headersConfig: {
-      [key: string]: string;
-    } = {
+    const headersConfig: Record<string, string> = {
       'X-Parse-Application-Id': this.applicationId,
       'Content-Type': 'application/json',
     };
@@ -33,15 +34,14 @@ export class LandmarkService {
     const cookieName = name + '=';
     const decodedCookie = decodeURIComponent(document.cookie);
     const cookieArray = decodedCookie.split(';');
+    
     for (let i = 0; i < cookieArray.length; i++) {
-      let cookie = cookieArray[i];
-      while (cookie.charAt(0) === ' ') {
-        cookie = cookie.substring(1);
-      }
+      let cookie = cookieArray[i].trim();
       if (cookie.indexOf(cookieName) === 0) {
         return cookie.substring(cookieName.length, cookie.length);
       }
     }
+
     return null;
   }
 
@@ -56,43 +56,51 @@ export class LandmarkService {
         ]
       }));
     }
+
     const apiUrl = `${this.apiUrl}/classes/Landmark/`;
-    return this.http.get<Landmark[]>(apiUrl, { headers: this.getHeaders(), params });
+    return this.http.get<Landmark[]>(apiUrl, { headers: this.getHeaders(), params })
+      .pipe(
+        catchError(error => this.handleError(error))
+      );
   }
 
   getLandmarkById(id: string): Observable<Landmark> {
     const apiUrl = `${this.apiUrl}/classes/Landmark/${id}`;
-    return this.http.get<Landmark>(apiUrl, { headers: this.getHeaders() });
+    return this.http.get<Landmark>(apiUrl, { headers: this.getHeaders() })
+      .pipe(
+        catchError(error => this.handleError(error))
+      );
   }
 
-  
   updateLandmarkTitle(objectId: string, newTitle: string): Observable<any> {
-    const updateData = {
-      title: newTitle
-    };
-
+    const updateData = { title: newTitle };
     const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
-
-    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
+    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() })
+      .pipe(
+        catchError(error => this.handleError(error))
+      );
   }
 
   updateLandmarkShortInfo(objectId: string, newShortInfo: string): Observable<any> {
-    const updateData = {
-      short_info: newShortInfo
-    };
-
+    const updateData = { short_info: newShortInfo };
     const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
-
-    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
+    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() })
+      .pipe(
+        catchError(error => this.handleError(error))
+      );
   }
 
   updateLandmarkDescription(objectId: string, newDescription: string): Observable<any> {
-    const updateData = {
-      description: newDescription
-    };
-
+    const updateData = { description: newDescription };
     const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
+    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() })
+      .pipe(
+        catchError(error => this.handleError(error))
+      );
+  }
 
-    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
+  private handleError(error: any): Observable<never> {
+    console.error('Error occurred:', error);
+    return new Observable<never>();
   }
 }

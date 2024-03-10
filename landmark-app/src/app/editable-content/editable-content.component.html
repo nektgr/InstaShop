@@ -2,13 +2,15 @@
   <ng-container *ngIf="!isEditMode">
     <div>
       <ng-container *ngIf="link; else contentBlock">
-        <a *ngIf="!isEditMode && isAuthenticated" [routerLink]="link">{{ content }}</a>
+        <a *ngIf="!isEditMode" [routerLink]="link">{{ content }}</a>
       </ng-container>
       <ng-template #contentBlock>
         {{ content }}
       </ng-template>
 
-      <button *ngIf="isAuthenticated" (click)="enterEditMode()">Edit</button>
+      <button *ngIf="isAuthenticated" (click)="enterEditMode()">
+        <img src="assets/pen.png" alt="Edit" class="w-4 h-4 ml-2">
+      </button>
     </div>
   </ng-container>
 

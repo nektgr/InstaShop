@@ -13,3 +13,4 @@ export interface Landmark {
   export interface LandmarkList {
     results: Landmark[];
   }
+

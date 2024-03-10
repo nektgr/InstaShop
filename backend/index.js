@@ -26,8 +26,6 @@ export const config = {
 
 
 export const app = express();
-// Serve static files from the 'public' directory
-app.set('trust proxy', true);
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Asynchronous IIFE for starting Parse Server
