@@ -1,12 +1,13 @@
+// Import necessary modules and libraries
 import express from 'express';
 import { ParseServer } from 'parse-server';
 import path from 'path';
 import dotenv from 'dotenv';
-const __dirname = path.resolve();
 import http from 'http';
 import ParseDashboard from 'parse-dashboard';
 
 // Resolving the path for the environment variables file and configuring dotenv to use the specified environment variables file 
+const __dirname = path.resolve();
 const envFilePath = path.resolve(__dirname, '.env');
 dotenv.config({ path: envFilePath });
 
@@ -24,46 +25,53 @@ export const config = {
   port: process.env.SERVER_PORT,
 };
 
-
+// Create an Express app instance
 export const app = express();
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Asynchronous IIFE for starting Parse Server
 (async () => {
   try {
+    // Create a new Parse Server instance and start it
     const server = new ParseServer(config);
     await server.start();
     app.use('/parse', server.app);
-  } catch (error) {
-    console.error('Error starting Parse Server:', error);
-  }
 
-  // Create Parse Dashboard instance with configuration settings
-  var dashboard = new ParseDashboard({
-    "apps": [
-      {
-        "serverURL": process.env.SERVER_URL,
-        "appId": process.env.APP_ID,
-        "masterKey": process.env.MASTER_KEY,
-        "appName": process.env.APP_NAME
-      }
-    ],
-    "users": [
-      {
-        "user": process.env.APP_USER,
-        "pass": process.env.APP_PASS
-      },]
-  });
+    // Create Parse Dashboard instance with configuration settings
+    const dashboard = new ParseDashboard({
+      "apps": [
+        {
+          "serverURL": process.env.SERVER_URL,
+          "appId": process.env.APP_ID,
+          "masterKey": process.env.MASTER_KEY,
+          "appName": process.env.APP_NAME
+        }
+      ],
+      "users": [
+        {
+          "user": process.env.APP_USER,
+          "pass": process.env.APP_PASS
+        },
+      ]
+    });
 
     // Mount Parse Dashboard at the '/dashboard' endpoint of the Express app
     app.use('/dashboard', dashboard);
+
+    // Serve the test.html file for the '/test' endpoint
     app.get('/test', function (req, res) {
       res.sendFile(path.join(__dirname, '/public/test.html'));
     });
-    
-  
+
+  } catch (error) {
+    // Handle errors while starting Parse Server
+    console.error('Error starting Parse Server:', error);
+  }
+
+  // Start the server only if not in testing mode
   if (!process.env.TESTING) {
-    const port = process.env.SERVER_PORT || 1337; // Provide a default value if not set
+    // Use the specified port or default to 1337
+    const port = process.env.SERVER_PORT || 1337;
     const httpServer = http.createServer(app);
     httpServer.listen(port, function () {
       console.log('parse-server-example running on port ' + port + '.');
