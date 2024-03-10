@@ -27,7 +27,6 @@ export class LoginModalComponent {
         const response = await this.authService.login(this.username, this.password);
 
         // Log success, close the modal, and reset login error status
-        console.log('Login successful!', response);
         this.activeModal.close();
         this.loginError = false;
       } catch (error) {

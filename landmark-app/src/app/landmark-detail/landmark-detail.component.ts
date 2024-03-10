@@ -30,7 +30,6 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe((isAuthenticated) => {
         this.isAuthenticated = isAuthenticated;
-        console.log('User authenticated:', isAuthenticated);
       });
   }
 
@@ -42,7 +41,6 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
 
   private fetchLandmark() {
     // Fetch landmark data based on the route parameter
-    console.log('Fetching landmark data');
     const landmarkId = this.route.snapshot.paramMap.get('id');
     if (landmarkId) {
       this.landmarkService.getLandmarkById(landmarkId).subscribe(
@@ -58,13 +56,11 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
 
   // Event handler for title change
   onTitleChange(newTitle: string, landmark: Landmark | undefined) {
-    console.log('Title changed:', newTitle);
-
     if (landmark) {
       // Make a PUT request to update the title on the server
       this.landmarkService.updateLandmarkTitle(landmark.objectId!, newTitle).subscribe(
         (response) => {
-          console.log('Title updated successfully:', response);
+         
         },
         (error) => {
           console.error('Error updating title:', error);
@@ -75,13 +71,11 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
 
   // Event handler for short info change
   onShortInfoChange(newShortInfo: string, landmark: Landmark | undefined) {
-    console.log('Short info changed:', newShortInfo);
-
     if (landmark) {
       // Make a PUT request to update the short info on the server
       this.landmarkService.updateLandmarkShortInfo(landmark.objectId!, newShortInfo).subscribe(
         (response) => {
-          console.log('Short info updated successfully:', response);
+         
         },
         (error) => {
           console.error('Error updating short info:', error);
@@ -92,13 +86,11 @@ export class LandmarkDetailComponent implements OnInit, OnDestroy {
 
   // Event handler for description change
   onDescriptionChange(newDescription: string, landmark: Landmark | undefined) {
-    console.log('Description changed:', newDescription);
-
     if (landmark) {
       // Make a PUT request to update the Description on the server
       this.landmarkService.updateLandmarkDescription(landmark.objectId!, newDescription).subscribe(
         (response) => {
-          console.log('Description updated successfully:', response);
+         
         },
         (error) => {
           console.error('Error updating Description:', error);

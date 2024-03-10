@@ -113,7 +113,6 @@ export class AuthService {
   logout(): Promise<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, null, { headers: this.getHeaders() }).toPromise()
       .then(() => {
-        console.log('User logged out successfully');
       })
       .catch(error => {
         console.error('Error logging out:', error);

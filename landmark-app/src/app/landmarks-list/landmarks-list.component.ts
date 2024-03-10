@@ -30,7 +30,6 @@ export class LandmarksListComponent implements OnInit {
     this.fetchLandmarks();
     this.authSubscription = this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
       this.isAuthenticated = isAuthenticated;
-      console.log('User authenticated:', isAuthenticated);
     });
   }
 
@@ -84,13 +83,11 @@ export class LandmarksListComponent implements OnInit {
 
   // Event handler for title change
   onTitleChange(newTitle: string, landmark: Landmark | undefined) {
-    console.log('Title changed:', newTitle);
-
     if (landmark) {
       // Make a PUT request to update the title on the server
       this.landmarkService.updateLandmarkTitle(landmark.objectId!, newTitle).subscribe(
         (response) => {
-          console.log('Title updated successfully:', response);
+         
         },
         (error) => {
           console.error('Error updating title:', error);
@@ -101,13 +98,11 @@ export class LandmarksListComponent implements OnInit {
 
   // Event handler for short info change
   onShortInfoChange(newShortInfo: string, landmark: Landmark | undefined) {
-    console.log('Short info changed:', newShortInfo);
-
     if (landmark) {
       // Make a PUT request to update the short info on the server
       this.landmarkService.updateLandmarkShortInfo(landmark.objectId!, newShortInfo).subscribe(
         (response) => {
-          console.log('Short info updated successfully:', response);
+         
         },
         (error) => {
           console.error('Error updating short info:', error);

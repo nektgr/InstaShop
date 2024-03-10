@@ -38,7 +38,6 @@ export class EditableContentComponent {
     if (this.isEditMode) {
       // Check if the content has changed
       if (this.content !== this.editedContent) {
-        console.log('Content saved:', this.editedContent);
         this.content = this.editedContent;
         this.editedContentChange.emit(this.editedContent);
       }
