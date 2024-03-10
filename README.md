@@ -63,7 +63,7 @@ npm run start
 cd landmark-app
 ```
 
-### Create an `environment.ts` file
+### Create an `environment.ts` file and put in `src/enviroments` folder
 
 In the `environment.ts` file, you can configure various environment-specific settings. Below is an example with comments explaining each field:
 
