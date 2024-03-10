@@ -9,8 +9,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class EditableContentComponent {
   @Input() isAuthenticated: boolean = false;
   @Input() content: string = '';
-  @Input() link: string | undefined;
-  @Output() editedContentChange: EventEmitter<string> = new EventEmitter<string>();
+  @Input() link?: string 
+  @Output() editedContentChange = new EventEmitter<string>();
 
   static currentlyEditing: EditableContentComponent | null = null;
   isEditMode: boolean = false;

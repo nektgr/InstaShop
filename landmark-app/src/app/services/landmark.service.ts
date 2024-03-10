@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Landmark } from '../models/landmark.model';
+import { Landmark,LandmarkList,UpdateResponse } from '../models/landmark.model';
 import { environment } from '../../enviroments/enviroment';
 
 @Injectable({
@@ -45,7 +45,7 @@ export class LandmarkService {
     return null;
   }
 
-  getLandmarks(searchTerm?: string): Observable<Landmark[]> {
+  getLandmarks(searchTerm?: string): Observable<LandmarkList> {
     let params = new HttpParams();
 
     if (searchTerm) {
@@ -58,7 +58,7 @@ export class LandmarkService {
     }
 
     const apiUrl = `${this.apiUrl}/classes/Landmark/`;
-    return this.http.get<Landmark[]>(apiUrl, { headers: this.getHeaders(), params })
+    return this.http.get<LandmarkList>(apiUrl, { headers: this.getHeaders(), params })
       .pipe(
         catchError(error => this.handleError(error))
       );
@@ -72,28 +72,28 @@ export class LandmarkService {
       );
   }
 
-  updateLandmarkTitle(objectId: string, newTitle: string): Observable<any> {
+  updateLandmarkTitle(objectId: string, newTitle: string): Observable<UpdateResponse> {
     const updateData = { title: newTitle };
     const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
-    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() })
+    return this.http.put<UpdateResponse>(updateUrl, updateData, { headers: this.getHeaders() })
       .pipe(
         catchError(error => this.handleError(error))
       );
   }
 
-  updateLandmarkShortInfo(objectId: string, newShortInfo: string): Observable<any> {
+  updateLandmarkShortInfo(objectId: string, newShortInfo: string): Observable<UpdateResponse> {
     const updateData = { short_info: newShortInfo };
     const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
-    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() })
+    return this.http.put<UpdateResponse>(updateUrl, updateData, { headers: this.getHeaders() })
       .pipe(
         catchError(error => this.handleError(error))
       );
   }
 
-  updateLandmarkDescription(objectId: string, newDescription: string): Observable<any> {
+  updateLandmarkDescription(objectId: string, newDescription: string): Observable<UpdateResponse> {
     const updateData = { description: newDescription };
     const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
-    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() })
+    return this.http.put<UpdateResponse>(updateUrl, updateData, { headers: this.getHeaders() })
       .pipe(
         catchError(error => this.handleError(error))
       );

@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PhotoPopupComponent } from '../photo-popup/photo-popup.component';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
+import { Landmark, LandmarkList } from '../models/landmark.model';
 
 @Component({
   selector: 'app-landmars-list',
@@ -12,8 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./landmarks-list.component.css']
 })
 export class LandmarksListComponent implements OnInit {
-  allLandmarks: any[] = [];
-  filteredLandmarks: any[] = [];
+  allLandmarks: Landmark[] = [];
+  filteredLandmarks: Landmark[] = [];
   searchTerm: string = '';
   isAuthenticated: boolean = false;
   private authSubscription: Subscription = new Subscription;
@@ -45,9 +46,9 @@ export class LandmarksListComponent implements OnInit {
 
   fetchLandmarks() {
     this.landmarkService.getLandmarks().subscribe(
-      (response: any) => {
+      (response: LandmarkList) => {
         if (response.results && Array.isArray(response.results)) {
-          this.allLandmarks = response.results.map((landmark: any) => ({
+          this.allLandmarks = response.results.map((landmark: Landmark) => ({
             ...landmark,
           }));
           this.filteredLandmarks = [...this.allLandmarks];
@@ -76,13 +77,12 @@ export class LandmarksListComponent implements OnInit {
   sortLandmarks() {
     this.filteredLandmarks.sort((a, b) => a.order - b.order);
   }
-
-  onTitleChange(newTitle: string, landmark: any) {
+  onTitleChange(newTitle: string, landmark: Landmark | undefined) {
     console.log('Title changed:', newTitle);
   
-    // Make a PUT request to update the title on the server
-    this.landmarkService.updateLandmarkTitle(landmark.objectId, newTitle)
-      .subscribe(
+    if (landmark) {
+      // Make a PUT request to update the title on the server
+      this.landmarkService.updateLandmarkTitle(landmark.objectId!, newTitle).subscribe(
         (response) => {
           console.log('Title updated successfully:', response);
         },
@@ -90,14 +90,15 @@ export class LandmarksListComponent implements OnInit {
           console.error('Error updating title:', error);
         }
       );
+    }
   }
   
-  onShortInfoChange(newShortInfo: string, landmark: any) {
+  onShortInfoChange(newShortInfo: string, landmark: Landmark | undefined) {
     console.log('Short info changed:', newShortInfo);
   
-    // Make a PUT request to update the short info on the server
-    this.landmarkService.updateLandmarkShortInfo(landmark.objectId, newShortInfo)
-      .subscribe(
+    if (landmark) {
+      // Make a PUT request to update the short info on the server
+      this.landmarkService.updateLandmarkShortInfo(landmark.objectId!, newShortInfo).subscribe(
         (response) => {
           console.log('Short info updated successfully:', response);
         },
@@ -105,5 +106,7 @@ export class LandmarksListComponent implements OnInit {
           console.error('Error updating short info:', error);
         }
       );
+    }
   }
+
 }

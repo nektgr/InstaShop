@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { LandmarkService } from './landmark.service';
 import { environment } from '../../enviroments/enviroment';
-import { Landmark } from '../models/landmark.model';
+import { Landmark, LandmarkList } from '../models/landmark.model';
 
 describe('LandmarkService', () => {
   let service: LandmarkService;
@@ -28,22 +28,24 @@ describe('LandmarkService', () => {
 
   it('should retrieve landmarks', () => {
     const searchTerm = 'test';
-    const mockLandmarks: Landmark[] = [
-      {
-        objectId: '1',
-        title: 'Test Landmark 1',
-        photo_thumb: 'thumbnail_url_1',
-        short_info: 'Short info for Test Landmark 1',
-        description: 'Description for Test Landmark 1',
-        official_site: 'https://testlandmark1.com',
-        location: [10.123, 20.456],
-        order: 1,
-        photo: 'full_photo_url_1',
-      },
-    ];
+    const mockLandmarksList: LandmarkList = {
+      results: [
+        {
+          objectId: '1',
+          title: 'Test Landmark 1',
+          photo_thumb: 'thumbnail_url_1',
+          short_info: 'Short info for Test Landmark 1',
+          description: 'Description for Test Landmark 1',
+          official_site: 'https://testlandmark1.com',
+          location: [10.123, 20.456],
+          order: 1,
+          photo: 'full_photo_url_1',
+        },
+      ],
+    };
 
-    service.getLandmarks(searchTerm).subscribe((landmarks) => {
-      expect(landmarks).toEqual(mockLandmarks);
+    service.getLandmarks(searchTerm).subscribe((landmarksList) => {
+      expect(landmarksList).toEqual(mockLandmarksList);
     });
 
     const apiUrl = `${environment.apiUrl}/classes/Landmark/`;
@@ -51,7 +53,7 @@ describe('LandmarkService', () => {
 
     expect(req.request.params.get('where')).toContain(searchTerm);
 
-    req.flush(mockLandmarks);
+    req.flush(mockLandmarksList);
   });
 
   it('should retrieve a landmark by ID', () => {
@@ -77,6 +79,4 @@ describe('LandmarkService', () => {
 
     req.flush(mockLandmark);
   });
-
-  
 });
