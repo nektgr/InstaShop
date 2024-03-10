@@ -14,38 +14,40 @@ git clone https://github.com/nektgr/InstaShop.git
 cd backend
 ```
 ### Create an .env file
-##### NODE_ENV: Specifies the environment in which the application is running (development, production, etc.).
+```text
+NODE_ENV: Specifies the environment in which the application is running (development, production, etc.).
 NODE_ENV=
 
-##### DB_URI: The URI or connection string for your database.
+DB_URI: The URI or connection string for your database.
 DB_URI=
 
-##### APP_ID: The application ID for your Parse Server.
+APP_ID: The application ID for your Parse Server.
 APP_ID=
 
-##### MASTER_KEY: The master key used for administrative tasks in Parse Server.
+MASTER_KEY: The master key used for administrative tasks in Parse Server.
 MASTER_KEY=
 
-##### PUBLIC_SERVER_URL: The public URL of your Parse Server accessible from the client side.
+PUBLIC_SERVER_URL: The public URL of your Parse Server accessible from the client side.
 PUBLIC_SERVER_URL=
 
-##### SERVER_URL: The URL of your Parse Server used for internal communication (not exposed to the client side).
+SERVER_URL: The URL of your Parse Server used for internal communication (not exposed to the client side).
 SERVER_URL=
 
-##### SERVER_PORT: The port on which your Parse Server is running.
+SERVER_PORT: The port on which your Parse Server is running.
 SERVER_PORT=
 
-##### APP_NAME: The name of your application.
+APP_NAME: The name of your application.
 APP_NAME=
 
-##### APP_USER: The username for a specific purpose or user.
+APP_USER: The username for a specific purpose or user (dashboard).
 APP_USER=
 
-##### APP_PASS: The password associated with the specified username.
+APP_PASS: The password associated with the specified username.
 APP_PASS=
 
-##### cookieSessionSecret: A secret key used for signing session cookies.
+cookieSessionSecret: A secret key used for signing session cookies.
 cookieSessionSecret=
+```
 ### Install dependencies
 ```bash
 npm install
