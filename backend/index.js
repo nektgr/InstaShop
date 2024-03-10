@@ -24,8 +24,10 @@ export const config = {
   port: process.env.SERVER_PORT,
 };
 
+
 export const app = express();
 // Serve static files from the 'public' directory
+app.set('trust proxy', true);
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // Asynchronous IIFE for starting Parse Server
@@ -57,7 +59,11 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 
     // Mount Parse Dashboard at the '/dashboard' endpoint of the Express app
     app.use('/dashboard', dashboard);
-
+    app.get('/test', function (req, res) {
+      res.sendFile(path.join(__dirname, '/public/test.html'));
+    });
+    
+  
   if (!process.env.TESTING) {
     const port = process.env.SERVER_PORT || 1337; // Provide a default value if not set
     const httpServer = http.createServer(app);

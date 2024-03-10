@@ -13,7 +13,7 @@
   </ng-container>
 
   <ng-container *ngIf="isEditMode">
-    <textarea [class]="calculateRowCount() > 20 ? 'w-full h-150 resize-y' : 'w-full h-40 resize-y'" spellcheck="false" [(ngModel)]="editedContent" [rows]="calculateRowCount()" [cols]="100" (blur)="saveContent()"></textarea>
+    <textarea [class]="calculateRowCount() > 20 ? 'w-full h-150 resize-y' : 'w-full h-40 resize-y'" spellcheck="false" [(ngModel)]="editedContent" [rows]="calculateRowCount()" [cols]="100" (blur)="saveContent()" (keydown.enter)="saveContent()"></textarea>
     <button (click)="saveContent()">Save</button>
   </ng-container>
 </div>

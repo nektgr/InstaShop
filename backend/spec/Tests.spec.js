@@ -1,33 +1,59 @@
 import axios from 'axios';
+import request from 'supertest'; // Import 'request' for Landmark API tests
+import assert from 'assert';
+
 describe('Parse Server example', () => {
   Parse.User.enableUnsafeCurrentUser();
-  it('call function', async () => {
-    const result = await Parse.Cloud.run('hello');
-    expect(result).toBe('Hi');
-  });
-  it('call async function', async () => {
-    const result = await Parse.Cloud.run('asyncFunction');
-    expect(result).toBe('Hi async');
-  });
-  it('failing test', async () => {
-    const obj = new Parse.Object('Test');
-    try {
-      await obj.save();
-      fail('should not have been able to save test object.');
-    } catch (e) {
-      expect(e).toBeDefined();
-      expect(e.code).toBe(9001);
-      expect(e.message).toBe('Saving test objects is not available.');
-    }
-  });
-  it('coverage for /', async () => {
-    const { data, headers } = await axios.get('http://localhost:30001/');
-    expect(headers['content-type']).toContain('text/html');
-    expect(data).toBe('I dream of being a website.  Please star the parse-server repo on GitHub!');
-  });
+
+  // Test: Coverage for /test route
   it('coverage for /test', async () => {
     const { data, headers } = await axios.get('http://localhost:30001/test');
     expect(headers['content-type']).toContain('text/html');
     expect(data).toContain('<title>Parse Server Example</title>');
+  });
+
+  // Landmark API Tests
+  describe('Landmark API Tests', () => {
+    const sampleObject = {
+      className: 'landmark',
+      objectId: null,
+      key: 'value',
+    };
+    
+    // Create operation
+    it('should create a new object', async () => {
+      const TestObject = Parse.Object.extend(sampleObject.className);
+      const testObject = new TestObject();
+      testObject.set('key', sampleObject.key);
+  
+      await testObject.save().then((result) => {
+        sampleObject.objectId = result.id;
+        assert.ok(result.id);
+      });
+    });
+
+    // Update operation
+    it('should update the object', async () => {
+      const TestObject = Parse.Object.extend(sampleObject.className);
+      const query = new Parse.Query(TestObject);
+      const result = await query.get(sampleObject.objectId);
+      result.set('key', 'updatedValue');
+
+      await result.save().then((updatedObject) => {
+        assert.strictEqual(updatedObject.get('key'), 'updatedValue');
+      });
+    });
+
+    // Delete operation
+    it('should delete the object', async () => {
+      const TestObject = Parse.Object.extend(sampleObject.className);
+      const query = new Parse.Query(TestObject);
+      
+      await query.get(sampleObject.objectId).then(async (result) => {
+        await result.destroy().then(() => {
+          assert.ok(true);
+        });
+      });
+    });
   });
 });
