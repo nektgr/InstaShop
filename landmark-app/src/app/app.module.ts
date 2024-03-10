@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PhotoPopupComponent } from './photo-popup/photo-popup.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditableContentComponent } from './editable-content/editable-content.component';
 
 @NgModule({
