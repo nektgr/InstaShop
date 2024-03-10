@@ -1,13 +1,22 @@
 <div class="container mt-4 detail-container">
     <h2>
-      {{ landmark?.title }}
+      <app-editable-content
+      [isAuthenticated]="isAuthenticated"
+      [content]="landmark?.title ?? ''"
+      (editedContentChange)="onTitleChange($event, landmark)"></app-editable-content>
     </h2>
     <img [src]="landmark?.photo_thumb" alt="{{ landmark?.title }} Photo" class="img-fluid mb-3">
       <p>
-        {{ landmark?.short_info }}
+        <app-editable-content
+        [isAuthenticated]="isAuthenticated"
+        [content]="landmark?.short_info ?? ''"
+        (editedContentChange)="onShortInfoChange($event, landmark)"></app-editable-content>
       </p>
       <p>
-        {{ landmark?.description }}
+        <app-editable-content
+        [isAuthenticated]="isAuthenticated"
+        [content]="landmark?.description ?? ''"
+        (editedContentChange)="onDescriptionChange($event, landmark)"></app-editable-content>
       </p>
     <a [href]="landmark?.official_site" target="_blank" class="btn btn-primary mb-3">Official Site</a>
   </div>

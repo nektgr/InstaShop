@@ -1,10 +1,6 @@
-<!-- landmark-list.component.html -->
-
 <div>
   <input class="w-full p-2 border rounded focus:outline-none focus:border-blue-500" type="search" placeholder="Search landmarks" [(ngModel)]="searchTerm" (input)="searchLandmarks()">
 </div>
-
-<!-- landmark-list.component.html -->
 
 <div *ngFor="let landmark of filteredLandmarks" class="mb-4">
   <div class="bg-white shadow-sm p-4 rounded-lg">
@@ -21,21 +17,21 @@
         <div class="flex items-center mb-2">
           <h5 class="text-xl font-semibold">
             <app-editable-content
-              [content]="landmark.title"
               [isAuthenticated]="isAuthenticated"
+              [content]="landmark.title"
+              [link]="'/detail/' + landmark.objectId"
+              (editedContentChange)="onTitleChange($event, landmark)"
             ></app-editable-content>
+            
           </h5>
-        
-      
         </div>
 
         <p class="text-gray-600">
           <app-editable-content
-            [content]="landmark.short_info"
             [isAuthenticated]="isAuthenticated"
+            [content]="landmark.short_info"
+            (editedContentChange)="onShortInfoChange($event, landmark)"
           ></app-editable-content>
-        
-        
         </p>
       </div>
     </div>

@@ -11,14 +11,38 @@ export class LandmarkService {
   private applicationId:string = environment.appId;
   constructor(private http: HttpClient) {}
   
-  private getHeaders(): HttpHeaders {
+  private getHeaders(includeSessionToken: boolean = true): HttpHeaders {
     const headersConfig: {
       [key: string]: string;
     } = {
       'X-Parse-Application-Id': this.applicationId,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
+
+    if (includeSessionToken) {
+      const sessionToken = this.getCookie('sessionToken');
+      if (sessionToken) {
+        headersConfig['X-Parse-Session-Token'] = sessionToken;
+      }
+    }
+
     return new HttpHeaders(headersConfig);
+  }
+
+  private getCookie(name: string): string | null {
+    const cookieName = name + '=';
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(cookieName) === 0) {
+        return cookie.substring(cookieName.length, cookie.length);
+      }
+    }
+    return null;
   }
 
   getLandmarks(searchTerm?: string): Observable<Landmark[]> {
@@ -47,7 +71,7 @@ export class LandmarkService {
       title: newTitle
     };
 
-    const updateUrl = `${this.apiUrl}/${objectId}`;
+    const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
 
     return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
   }
@@ -57,7 +81,17 @@ export class LandmarkService {
       short_info: newShortInfo
     };
 
-    const updateUrl = `${this.apiUrl}/${objectId}`;
+    const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
+
+    return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
+  }
+
+  updateLandmarkDescription(objectId: string, newDescription: string): Observable<any> {
+    const updateData = {
+      description: newDescription
+    };
+
+    const updateUrl = `${this.apiUrl}/classes/Landmark/${objectId}`;
 
     return this.http.put<any>(updateUrl, updateData, { headers: this.getHeaders() });
   }

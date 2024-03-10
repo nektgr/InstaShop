@@ -1,14 +1,19 @@
-<!-- editable-content.component.html -->
 <div>
-    <ng-container *ngIf="!isEditMode">
-      <div>
+  <ng-container *ngIf="!isEditMode">
+    <div>
+      <ng-container *ngIf="link; else contentBlock">
+        <a *ngIf="!isEditMode && isAuthenticated" [routerLink]="link">{{ content }}</a>
+      </ng-container>
+      <ng-template #contentBlock>
         {{ content }}
-        <button *ngIf="isAuthenticated" (click)="enterEditMode()">Edit</button>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="isEditMode">
-      <textarea [class]="calculateTextareaClasses()" spellcheck="false" [(ngModel)]="editedContent" [rows]="calculateRowCount()" [cols]="100" (blur)="saveContent()"></textarea>
-      <button (click)="saveContent()">Save</button>
-    </ng-container>
-  </div>
-  
+      </ng-template>
+
+      <button *ngIf="isAuthenticated" (click)="enterEditMode()">Edit</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isEditMode">
+    <textarea [class]="calculateRowCount() > 20 ? 'w-full h-150 resize-y' : 'w-full h-40 resize-y'" spellcheck="false" [(ngModel)]="editedContent" [rows]="calculateRowCount()" [cols]="100" (blur)="saveContent()"></textarea>
+    <button (click)="saveContent()">Save</button>
+  </ng-container>
+</div>

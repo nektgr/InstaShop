@@ -15,8 +15,6 @@ export class LandmarksListComponent implements OnInit {
   filteredLandmarks: any[] = [];
   searchTerm: string = '';
   isAuthenticated: boolean = false;
-  editingTitleLandmark: any = null; // Separate variable for editing title
-  editingShortInfoLandmark: any = null; // Separate variable for editing short_info
 
   constructor(
     private landmarkService: LandmarkService,
@@ -33,21 +31,7 @@ export class LandmarksListComponent implements OnInit {
     });
   }
 
-  @HostListener('document:click', ['$event'])
-  documentClick(event: MouseEvent): void {
-    if (!this.isClickedInsideEditBox(event)) {
-      this.closeEditingTitleLandmark();
-      this.closeEditingShortInfoLandmark();
-    }
-  }
 
-  isClickedInsideEditBox(event: MouseEvent): boolean {
-    const clickedElement = event.target as HTMLElement;
-    return (
-      clickedElement.tagName === 'INPUT' ||
-      clickedElement.tagName === 'TEXTAREA'
-    );
-  }
 
   openPhotoPopup(fullSizePhotoUrl: string) {
     const modalRef = this.modalService.open(PhotoPopupComponent);
@@ -88,17 +72,9 @@ export class LandmarksListComponent implements OnInit {
     this.filteredLandmarks.sort((a, b) => a.order - b.order);
   }
 
-  editTitle(event: Event, landmark: any) {
-    event.preventDefault(); // Prevent link activation
-    event.stopPropagation(); // Stop event propagation to prevent link activation
-
-    this.closeEditingTitleLandmark();
-    landmark.isEditingTitle = !landmark.isEditingTitle;
-    this.editingTitleLandmark = landmark.isEditingTitle ? landmark : null;
-  }
-  saveTitle(landmark: any, newTitle: string) {
-    console.log('Saving title:', newTitle);
-
+  onTitleChange(newTitle: string, landmark: any) {
+    console.log('Title changed:', newTitle);
+  
     // Make a PUT request to update the title on the server
     this.landmarkService.updateLandmarkTitle(landmark.objectId, newTitle)
       .subscribe(
@@ -111,15 +87,10 @@ export class LandmarksListComponent implements OnInit {
       );
   }
   
-  editShortInfo(landmark: any) {
-    this.closeEditingTitleLandmark();
-    this.closeEditingShortInfoLandmark();
-    landmark.isEditingShortInfo = !landmark.isEditingShortInfo;
-    this.editingShortInfoLandmark = landmark.isEditingShortInfo ? landmark : null;
-  }
-
-  saveShortInfo(landmark: any, newShortInfo: string) {
-    console.log('Saving short info:', newShortInfo);
+  onShortInfoChange(newShortInfo: string, landmark: any) {
+    console.log('Short info changed:', newShortInfo);
+  
+    // Make a PUT request to update the short info on the server
     this.landmarkService.updateLandmarkShortInfo(landmark.objectId, newShortInfo)
       .subscribe(
         (response) => {
@@ -129,18 +100,5 @@ export class LandmarksListComponent implements OnInit {
           console.error('Error updating short info:', error);
         }
       );
-  }
-  private closeEditingTitleLandmark(): void {
-    if (this.editingTitleLandmark) {
-      this.editingTitleLandmark.isEditingTitle = false;
-      this.editingTitleLandmark = null;
-    }
-  }
-
-  private closeEditingShortInfoLandmark(): void {
-    if (this.editingShortInfoLandmark) {
-      this.editingShortInfoLandmark.isEditingShortInfo = false;
-      this.editingShortInfoLandmark = null;
-    }
   }
 }
